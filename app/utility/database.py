@@ -1,34 +1,21 @@
-from flask import current_app
-import mysql.connector
-from mysql.connector import Error
+from app.utility.db_connection import get_db_connection
 
 class StudentModel:
     @staticmethod
-    def get_connection():
-        try:
-            connection = mysql.connector.connect(
-                host=current_app.config['DB_HOST'],
-                user=current_app.config['DB_USER'],
-                password=current_app.config['DB_PASSWORD'],
-                database=current_app.config['DB_NAME']
-            )
-            return connection
-        except Error as e:
-            current_app.logger.error(f"Error connecting to MySQL: {e}")
-            return None
-
-    @staticmethod
     def get_all_students():
-        conn = StudentModel.get_connection()
-        if not conn:
-            return None
-        
+        """获取所有学生信息"""
+        conn = get_db_connection()
         cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM students")
-        students = cursor.fetchall()
-        cursor.close()
-        conn.close()
-        return students
+        try:
+            cursor.execute("SELECT * FROM students")
+            students = cursor.fetchall()
+            return students
+        except Exception as e:
+            print(f"Error: {e}")
+            return []
+        finally:
+            cursor.close()
+            conn.close()
 
     @staticmethod
     def get_scores_by_student_id(student_id):

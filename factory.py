@@ -5,7 +5,7 @@ from app.students.routes import students_bp
 from app.login.routes import login_bp
 from app.score.routes import score_bp
 from app.upload.routes import upload_bp
-from app.utility.database import StudentModel
+from app.utility.db_connection import get_db_connection
 
 cors = CORS()
 
@@ -23,11 +23,7 @@ def create_app(config_class=Config):
 def initialize_extensions(app):
     """初始化扩展"""
     cors.init_app(app)  # 初始化 CORS
-    app.config['DB_HOST'] = app.config['DB_HOST']
-    app.config['DB_USER'] = app.config['DB_USER']
-    app.config['DB_PASSWORD'] = app.config['DB_PASSWORD']
-    app.config['DB_NAME'] = app.config['DB_NAME']
-    app.config['get_connection'] = StudentModel.get_connection
+    app.config['get_connection'] = get_db_connection
 
 def register_blueprints(app):
     """注册蓝图"""
