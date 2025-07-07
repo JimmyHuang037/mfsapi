@@ -3,8 +3,7 @@ from flask_cors import CORS
 from config import Config
 from app.students.routes import students_bp
 from app.login.routes import login_bp
-from app.score.routes import score_bp
-from app.upload.routes import upload_bp
+from app.score.routes import score_bp  # 导入 score 蓝图
 from app.utility.db_connection import get_db_connection
 
 cors = CORS()
@@ -29,5 +28,4 @@ def register_blueprints(app):
     """注册蓝图"""
     app.register_blueprint(students_bp, url_prefix='/students')
     app.register_blueprint(login_bp, url_prefix='/login')
-    app.register_blueprint(score_bp, url_prefix='/score')
-    app.register_blueprint(upload_bp, url_prefix='/upload')
+    app.register_blueprint(score_bp, url_prefix='/score')  # 注册 score 蓝图
