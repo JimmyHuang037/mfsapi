@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request, current_app
-from app.utility.db_connection import get_db_connection
+from app.services.auth_service import authenticate_user
 
 login_bp = Blueprint('login', __name__)
 
@@ -17,32 +17,20 @@ def validate_request_data(data):
     
     return None
 
-def authenticate_user(student_id, password):
-    """
-    验证用户身份
-    :param student_id: 学号
-    :param password: 密码
-    :return: 若验证成功返回学生信息，失败返回 None
-    """
-    try:
-        with get_db_connection() as conn, conn.cursor(dictionary=True) as cursor:
-            cursor.execute("""
-                SELECT student_id, name FROM students 
-                WHERE student_id = %s AND password = %s
-            """, (student_id, password))
-            return cursor.fetchone()
-    except Exception as e:
-        current_app.logger.error(f"Database error: {str(e)}")
-        return None
-
 # 登录接口
 @login_bp.route('/login', methods=['POST'])
 def login():
     try:
-        if error := validate_request_data(request.get_json()):
+        data = request.get_json()
+        if error := validate_request_data(data):
             return error
-        if not (student := authenticate_user(*request.get_json().values())):
+
+        student_id = data.get('username')
+        password = data.get('password')
+
+        if not (student := authenticate_user(student_id, password)):
             return jsonify({'error': 'Invalid credentials'}), 401
+
         return jsonify(student)
     except Exception as e:
         current_app.logger.error(f"Unexpected error: {str(e)}")
