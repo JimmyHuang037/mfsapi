@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>导入学生信息</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: #f9f9f9;
+    }
+    input[type="file"] {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>上传 Excel 文件导入学生信息</h1>
+  <form id="uploadForm">
+    <input type="file" id="fileInput" name="file" accept=".xlsx,.xls" required>
+    <br>
+    <button type="submit">上传</button>
+  </form>
+
+  <div id="message" style="margin-top: 20px; color: green;"></div>
+
+  <script>
+    document.getElementById('uploadForm').addEventListener('submit', function(e) {
+      e.preventDefault(); // 防止表单刷新页面
+
+      const fileInput = document.getElementById('fileInput');
+      const file = fileInput.files[0];
+
+      if (!file) {
+        alert("❌ 请选择一个文件！");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      fetch('http://localhost:5000/import', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('HTTP 错误，状态码：' + response.status);
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('✅ 服务器返回：', data);
+        if (data.status === 'success') {
+          document.getElementById('message').innerText = data.message + '，即将跳转...';
+          setTimeout(() => {
+            window.location.href = 'index.html';
+          }, 1500);
+        } else {
+          document.getElementById('message').innerText = '❌ 上传失败: ' + (data.error || '未知错误');
+        }
+      })
+      .catch(err => {
+        console.error('上传失败:', err);
+        document.getElementById('message').innerText = '❌ 上传时出错: ' + err.message;
+      });
+    });
+  </script>
+</body>
+</html>
