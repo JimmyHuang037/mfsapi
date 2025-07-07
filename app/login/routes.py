@@ -11,7 +11,7 @@ def login():
         data = request.get_json()
         if not data:
             return jsonify({'error': 'No JSON data provided'}), 400
-            
+        
         student_id = data.get('username')
         password = data.get('password')
 
@@ -21,7 +21,7 @@ def login():
         conn = current_app.config['get_connection']()
         if not conn:
             return jsonify({'error': 'Database connection error'}), 500
-            
+        
         cursor = conn.cursor(dictionary=True)
         
         # 添加错误处理

@@ -1,9 +1,14 @@
+from .routes import score_bp
 from flask import Blueprint, jsonify, request, current_app
 import mysql.connector
 from mysql.connector import Error
 
 score_bp = Blueprint('score', __name__)
 
+# 注册蓝图路由
+def init_score_routes(app):
+    app.register_blueprint(score_bp, url_prefix='/scores')
+    
 # 获取单个学生成绩
 @score_bp.route('/<string:student_id>', methods=['GET'])
 def get_scores(student_id):
