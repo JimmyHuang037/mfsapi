@@ -40,5 +40,4 @@
 ## 📫 联系方式
 
 - GitHub: https://github.com/JimmyHuang037
-- 邮箱：huangchengliang@example.com
-
+- 邮箱：huangchengliang037@gmail.com
