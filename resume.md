@@ -2,8 +2,8 @@
 
 ## 👤 基本信息
 
-- **姓名：** 黄诚亮
-- **邮箱：** huangchengliang@example.com
+- **姓名：** JimmyHuang
+- **邮箱：** huangchengliang037@gmail.com
 - **性格特点：** 活泼开朗、积极主动，乐于合作与分享
 
 ---
@@ -14,7 +14,7 @@
 **技术栈：** HTML、JavaScript、Flask、MySQL、Excel处理  
 **项目描述：**
 - 实现 `index.html` 页面展示学生列表，通过 `/students` API 获取并渲染数据；
-- 实现 `newweb.html` 页面上传 Excel 文件，并调用 `/import` 接口更新学生数据库；
+- 实现 `upload.html` 页面上传 Excel 文件，并调用 `/import` 接口更新学生数据库；
 - 后端模块化开发，结构清晰，包含登录、成绩、学生、上传、工具五大模块；
 - 支持 `.xlsx` 和 `.xls` 格式上传，自动更新数据库并跳转回学生列表页。
 
