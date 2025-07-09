@@ -3,3 +3,4 @@ env/
 
 # 忽略迁移目录
 db/
+__pycache__
