@@ -11,7 +11,7 @@ def authenticate_user(student_id, password):
     try:
         with get_db_connection() as conn, conn.cursor(dictionary=True) as cursor:
             cursor.execute("""
-                SELECT student_id, name FROM students 
+                SELECT student_id, password FROM students 
                 WHERE student_id = %s AND password = %s
             """, (student_id, password))
             return cursor.fetchone()

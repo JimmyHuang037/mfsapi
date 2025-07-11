@@ -6,7 +6,7 @@ from werkzeug.utils import secure_filename
 upload_bp = Blueprint('upload', __name__)
 
 # 配置
-UPLOAD_FOLDER = 'uploads'
+UPLOAD_FOLDER = 'uploads' #用于filepath=os.path的找到路径，然后拼接
 ALLOWED_EXTENSIONS = {'xlsx', 'xls'}
 
 def allowed_file(filename):
@@ -28,8 +28,15 @@ def import_excel():
 
         # 保存文件
         filename = secure_filename(file.filename)
-        filepath = os.path.join(current_app.config['DB_NAME'], UPLOAD_FOLDER, filename)
+
+# 拼接保存目录路径：student_db/uploads
+        upload_dir = os.path.join(current_app.config['DB_NAME'], UPLOAD_FOLDER)
+        os.makedirs(upload_dir, exist_ok=True)  # ✅ 确保目录存在
+
+# 拼接完整文件路径
+        filepath = os.path.join(upload_dir, filename)
         file.save(filepath)
+
         print(f"📄 文件已保存: {filepath}")
 
         # 读取 Excel

@@ -12,26 +12,30 @@ def validate_request_data(data):
     if not data:
         return jsonify({'error': 'No JSON data provided'}), 400
     
-    if not all(data.get(key) for key in ('username', 'password')):
-        return jsonify({'error': 'Username and password required'}), 400
+    if not all(data.get(key) for key in ('student_id', 'password')):
+        return jsonify({'error': 'student_id and password required'}), 400
     
     return None
 
 # 登录接口
 @login_bp.route('/login', methods=['POST'])
 def login():
+    print("收到登录请求:", request.json)
     try:
         data = request.get_json()
         if error := validate_request_data(data):
             return error
 
-        student_id = data.get('username')
+        student_id = data.get('student_id')
         password = data.get('password')
 
         if not (student := authenticate_user(student_id, password)):
-            return jsonify({'error': 'Invalid credentials'}), 401
+            return jsonify({'success': False, 'error': 'Invalid credentials'}), 401
 
-        return jsonify(student)
+        return jsonify({'success': True, 'student': student})
     except Exception as e:
         current_app.logger.error(f"Unexpected error: {str(e)}")
         return jsonify({'error': 'Internal server error'}), 500
+
+    # 移除重复的示例代码部分
+    return jsonify(success=False)
