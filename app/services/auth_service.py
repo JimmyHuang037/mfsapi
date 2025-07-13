@@ -18,3 +18,4 @@ def authenticate_user(student_id, password):
     except Exception as e:
         current_app.logger.error(f"Database error during authentication: {str(e)}")
         return None
+

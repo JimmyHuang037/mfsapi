@@ -12,11 +12,19 @@ def get_all_students():
         return None
 
 def get_student_by_id(student_id):
-    """根据学生 ID 获取学生信息"""
+    """根据学生 ID 获取学生信息和成绩"""
     try:
         with get_db_connection() as conn, conn.cursor(dictionary=True) as cursor:
+            # 查询学生基本信息
             cursor.execute("SELECT * FROM students WHERE student_id = %s", (student_id,))
-            return cursor.fetchone()
+            student = cursor.fetchone()
+            
+            if student:
+                # 查询学生成绩
+                cursor.execute("SELECT * FROM scores WHERE student_id = %s", (student_id,))
+                student['scores'] = cursor.fetchall()
+            
+            return student
     except Exception as e:
         current_app.logger.error(f"Database error when getting student by ID: {str(e)}")
         return None
