@@ -64,6 +64,7 @@ def import_excel():
 
         return jsonify({'status': 'success', 'message': f'成功导入 {len(df)} 条记录'}), 200
 
-    except Exception as e:
-        print("❌ 错误信息:", str(e))  # 最重要：打印报错内容！
-        return jsonify({'error': str(e)}), 500
+
+    except IntegrityError as e:
+        conn.rollback()
+        return jsonify({'error': '有重复 student_id，请检查'}), 400
