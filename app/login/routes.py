@@ -18,7 +18,7 @@ def validate_request_data(data):
     return None
 
 # 登录接口
-@login_bp.route('/login', methods=['POST'])
+@login_bp.route('/', methods=['POST'])
 def login():
     print("收到登录请求:", request.json)
     try:
