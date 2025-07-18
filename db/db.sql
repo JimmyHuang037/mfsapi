@@ -1,4 +1,9 @@
--- 学生表（主键改为自增id，保留student_id作为唯一键）
+-- 删除并重建数据库
+DROP DATABASE IF EXISTS student_db;
+CREATE DATABASE student_db CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE student_db;
+
+-- 创建 students 表
 CREATE TABLE IF NOT EXISTS students (
     id INT NOT NULL AUTO_INCREMENT,
     student_id VARCHAR(50) NOT NULL,
@@ -8,7 +13,7 @@ CREATE TABLE IF NOT EXISTS students (
     UNIQUE KEY (student_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- 成绩表（新增type字段）
+-- 创建 scores 表
 CREATE TABLE IF NOT EXISTS scores (
     id INT NOT NULL AUTO_INCREMENT,
     student_id VARCHAR(50) NOT NULL,
@@ -20,8 +25,8 @@ CREATE TABLE IF NOT EXISTS scores (
     FOREIGN KEY (student_id) REFERENCES students(student_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- 插入学生
-INSERT IGNORE INTO students (student_id, name, password) VALUES ...;
+-- 插入示例学生数据
+INSERT INTO students (student_id, name, password) VALUES
 ('S1001', 'Alice Johnson', 'pass123'),
 ('S1002', 'Bob Smith', 'pass123'),
 ('S1003', 'Charlie Brown', 'pass123'),
@@ -43,9 +48,8 @@ INSERT IGNORE INTO students (student_id, name, password) VALUES ...;
 ('S1019', 'Steven Turner', 'pass123'),
 ('S1020', 'Tina Allen', 'pass123');
 
--- 插入部分成绩（英语学科，月考/期中/期末）
-
-INSERT IGNORE INTO scores (student_id, subject, type, score) VALUES ...;
+-- 插入英语成绩数据
+INSERT INTO scores (student_id, subject, type, score) VALUES
 ('S1001', 'English', 'Monthly', 87.50),
 ('S1002', 'English', 'Midterm', 78.00),
 ('S1003', 'English', 'Final', 92.00),
