@@ -7,3 +7,5 @@ __pycache__/
 
 # 忽略 .pyc 文件
 *.pyc
+
+student_db/
