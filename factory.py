@@ -2,8 +2,6 @@ from flask import Flask
 from flask_cors import CORS
 from config import Config
 
-cors = CORS()
-
 def create_app(config_class=Config):
     from app.utility.db_connection import get_db_connection
     from app.students.routes import students_bp
@@ -12,10 +10,14 @@ def create_app(config_class=Config):
     from app.upload.routes import upload_bp
 
     app = Flask(__name__)
+    # 修改CORS配置，添加更详细的参数
+    CORS(app)
+    
     app.config.from_object(config_class)
-
+    
+    # 移除重复的cors.init_app(app)调用
     # 初始化扩展
-    cors.init_app(app)
+    # cors.init_app(app)
 
     # 注册蓝图
     app.register_blueprint(students_bp, url_prefix='/api/students')
