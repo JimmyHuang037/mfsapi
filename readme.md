@@ -69,3 +69,39 @@
 - 使用 curl 命令时，请确保参数传递正确。
 
 👉 [查看个人简历（resume.md）](./resume.md)
+
+
+# Jenkins 安装指南 (Ubuntu Linux)
+
+## 安装步骤
+
+1. 添加官方仓库密钥和源：
+```bash
+curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo tee /usr/share/keyrings/jenkins-keyring.asc > /dev/null
+echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/" | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
+优化APT下载速度（可选）：
+
+bash
+echo 'Acquire::http::Pipeline-Depth "10";' | sudo tee /etc/apt/apt.conf.d/90http-pipeline
+echo 'Acquire::http::No-Cache true;' | sudo tee -a /etc/apt/apt.conf.d/90http-pipeline
+安装Jenkins：
+
+bash
+sudo apt-get update
+sudo apt-get install jenkins
+基本管理命令
+启动服务：sudo systemctl start jenkins
+停止服务：sudo systemctl stop jenkins
+查看状态：sudo systemctl status jenkins
+查看初始密码：sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+访问Jenkins
+确保防火墙允许8080端口：
+
+bash
+sudo ufw allow 8080
+sudo ufw enable
+在浏览器访问：http://<服务器IP>:8080
+注意事项
+安装完成后会自动创建jenkins用户和组
+服务配置文件位于：/etc/default/jenkins
+数据目录位于：/var/lib/jenkins
