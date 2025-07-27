@@ -10,3 +10,4 @@ __pycache__/
 *.pyc
 
 student_db/
+db/ns.xlsx
